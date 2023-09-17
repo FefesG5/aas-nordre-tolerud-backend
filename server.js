@@ -11,7 +11,7 @@ app.get("/messages", async (req, res) => {
     res.status(200).json(result);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Internal Server Error");
+    res.status(500).send("Unable to retrieve all messages");
   }
 });
 
@@ -27,7 +27,25 @@ app.post("/message", async (req, res) => {
     res.status(200).send("Message stored sucessfully in database");
   } catch (error) {
     console.error(error);
-    res.status(500).send("Internal Server Error");
+    res.status(500).send("Unable to save message");
+  }
+});
+
+app.delete("/message/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const deleteRow = await bd("messages").where({ id: id }).del();
+    if (deleteRow) {
+      console.log(`Message with id ${id} deleted sucessfully`);
+      res.status(200).send(`Message with id ${id} deleted sucessfully`);
+    } else {
+      console.log(`Message with id ${id} not found`);
+      res.status(404).send(`Message with id ${id} not found`);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Unable to delete message");
   }
 });
 
