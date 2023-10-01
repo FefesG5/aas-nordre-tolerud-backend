@@ -1,5 +1,7 @@
 const express = require("express");
-const { db, pool } = require("./knexConfig");
+const knex = require("knex");
+const { currentConfig } = require("./knexConfig");
+const db = knex(currentConfig);
 
 const app = express();
 
@@ -35,7 +37,7 @@ app.delete("/message/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
-    const deleteRow = await bd("messages").where({ id: id }).del();
+    const deleteRow = await db("messages").where({ id: id }).del();
     if (deleteRow) {
       console.log(`Message with id ${id} deleted sucessfully`);
       res.status(200).send(`Message with id ${id} deleted sucessfully`);
