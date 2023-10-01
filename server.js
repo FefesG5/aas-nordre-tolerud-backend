@@ -1,7 +1,7 @@
 const express = require("express");
 const knex = require("knex");
-const { currentConfig } = require("./knexConfig");
-const db = knex(currentConfig);
+const config = require("./knexConfig");
+const db = knex(config);
 
 const app = express();
 

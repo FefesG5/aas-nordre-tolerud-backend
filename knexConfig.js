@@ -1,7 +1,6 @@
 require("dotenv").config();
-const knex = require("knex");
 
-const developmentConfig = new knex({
+const developmentConfig = {
   client: "pg",
   connection: {
     host: process.env.DB_HOST,
@@ -14,7 +13,7 @@ const developmentConfig = new knex({
     tableName: "knex_migrations",
     directory: "./migrations",
   },
-});
+};
 
 const productionConfig = {
   client: "pg",
@@ -28,6 +27,4 @@ const productionConfig = {
 const currentConfig =
   process.env.NODE_ENV === "production" ? productionConfig : developmentConfig;
 
-module.exports = {
-  currentConfig,
-};
+module.exports = currentConfig;
